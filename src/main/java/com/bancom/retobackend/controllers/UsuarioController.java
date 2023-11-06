@@ -1,4 +1,5 @@
 package com.bancom.retobackend.controllers;
+import com.bancom.retobackend.dtos.UpdateUsuario;
 import com.bancom.retobackend.entities.Usuario;
 import com.bancom.retobackend.services.UsuarioService;
 import org.slf4j.Logger;
@@ -23,6 +24,40 @@ public class UsuarioController {
     public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario) {
         try{
             return ResponseEntity.ok(this.usuarioService.save(usuario));
+        }
+        catch(RuntimeException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{idUser}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable(name="idUser") Long idUser){
+        try{
+            return ResponseEntity.ok(this.usuarioService.getUsuarioById(idUser));
+        }
+        catch(RuntimeException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    @PatchMapping("/{idUser}")
+    public ResponseEntity<Usuario> updateUser(@RequestBody UpdateUsuario usuarioUpdated,@PathVariable(name = "idUser") Long idUser){
+        try{
+            return ResponseEntity.ok(this.usuarioService.editUser(usuarioUpdated,idUser));
+        }
+        catch(RuntimeException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{idUser}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name="idUser") Long idUser){
+        try{
+            this.usuarioService.deleteUser(idUser);
+            logger.info("User %d is deleted".formatted(idUser));
+            return ResponseEntity.ok().build();
         }
         catch(RuntimeException e){
             logger.error(e.getMessage());

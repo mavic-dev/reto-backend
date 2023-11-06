@@ -32,7 +32,7 @@ public class Usuario {
     @Column(name="Password",length = 30, nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JsonManagedReference// serialize and don't reference infinite recursion
     private List<Post> posts;
 
