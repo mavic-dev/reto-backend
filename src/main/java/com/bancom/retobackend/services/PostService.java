@@ -49,13 +49,14 @@ public class PostService {
 
     }
 
-    public boolean deletePost(Long idPost, Long idUser) {
+    public void deletePost(Long idPost, Long idUser) {
         Post post = this.isPostCreatedByUser(idPost, idUser);
         if (post != null) {
             this.postRepository.deleteById(post.getIdPost());
-            return true;
         }
-        throw new NoSuchElementException("The post can only be edited by the user who created it");
+        else{
+            throw new NoSuchElementException("The post can only be edited by the user who created it");
+        }
     }
 
     private Post isPostCreatedByUser(Long idPost, Long idUser) {

@@ -58,11 +58,8 @@ public class PostController {
         @PathVariable(name = "idUser") Long idUser
         ){
         try {
-            if(this.postsService.deletePost(idPost,idUser)){
-                return ResponseEntity.ok().build();
-            }else{
-                return ResponseEntity.internalServerError().build();
-            }
+            this.postsService.deletePost(idPost,idUser);
+            return ResponseEntity.ok().build();
         }catch(RuntimeException e){
             logger.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
