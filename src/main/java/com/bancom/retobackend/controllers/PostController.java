@@ -59,6 +59,7 @@ public class PostController {
         ){
         try {
             this.postsService.deletePost(idPost,idUser);
+            logger.info("Post with id %d is deleted".formatted(idUser));
             return ResponseEntity.ok().build();
         }catch(RuntimeException e){
             logger.error(e.getMessage());

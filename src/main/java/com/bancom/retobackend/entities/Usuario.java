@@ -6,14 +6,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.List;
 
 @Entity
 @Table(name = "Usuario")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
-public class Usuario {
+public class Usuario extends Monitoring {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Id", nullable = false)
