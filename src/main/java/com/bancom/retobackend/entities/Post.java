@@ -15,13 +15,13 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id",nullable = false)
-    private Long id_post;
+    private Long idPost;
 
     @Column(name="Text",nullable = false)
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "idUser")
     @JsonBackReference//  serialize and don't reference infinite recursion
     private Usuario usuario;
 
