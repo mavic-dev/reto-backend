@@ -59,10 +59,9 @@ public class PostService {
         }
     }
 
-    private Post isPostCreatedByUser(Long idPost, Long idUser) {
-        Optional<Post> postOptional = this.postRepository.findById(idPost);
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
+    public Post isPostCreatedByUser(Long idPost, Long idUser) {
+        Post post = this.postRepository.findById(idPost).orElse(null);
+        if (post != null) {
             if (idUser.equals(post.getUsuario().getIdUser())) {
                 return post;
             }
