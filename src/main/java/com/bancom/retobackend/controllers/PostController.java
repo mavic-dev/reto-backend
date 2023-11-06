@@ -1,4 +1,5 @@
 package com.bancom.retobackend.controllers;
+import com.bancom.retobackend.dtos.PostText;
 import com.bancom.retobackend.entities.Post;
 import com.bancom.retobackend.services.PostService;
 import org.slf4j.Logger;
@@ -28,10 +29,40 @@ public class PostController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Post>> getPosts(){
+    @GetMapping("/{idUser}")
+    public ResponseEntity<List<Post>> getPostByUser(@PathVariable(name = "idUser") Long idUser){
         try{
-            return ResponseEntity.ok(this.postsService.findAll());
+            return ResponseEntity.ok(this.postsService.getPostByUser(idUser));
+        }catch(RuntimeException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PatchMapping("{idPost}/{idUser}")
+    public ResponseEntity<Post> updatePost(
+            @PathVariable(name = "idPost") Long idPost,
+            @PathVariable(name = "idUser") Long idUser,
+            @RequestBody PostText postText){
+        try{
+            return ResponseEntity.ok(this.postsService.editPost(postText,idPost,idUser));
+        }catch(RuntimeException e){
+            logger.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{idPost}/{idUser}")
+    public ResponseEntity<Void> deletePost(
+        @PathVariable(name = "idPost") Long idPost,
+        @PathVariable(name = "idUser") Long idUser
+        ){
+        try {
+            if(this.postsService.deletePost(idPost,idUser)){
+                return ResponseEntity.ok().build();
+            }else{
+                return ResponseEntity.internalServerError().build();
+            }
         }catch(RuntimeException e){
             logger.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
